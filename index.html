@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tic-tac-toe-22</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background-color: #001011;
+            display: flex;
+            text-align: center;
+            justify-content: center;
+            font-family: Arial;
+        }
+
+        .heading {
+            color: #fff;
+            border: 1px solid white;
+            border-radius: 20px;
+            margin: 25px;
+            padding: 10px;
+        }
+
+        .boxContainer {
+            height: 450px;
+            width: 450px;
+            text-align: center;
+            /* background-color: red; */
+        }
+
+        .boxes {
+            height: 120px;
+            width: 120px;
+            display: flex;
+            margin: 5px;
+            border-radius: 10px;
+            border: 1px solid white;
+            background: none;
+            color: white;
+            font-size: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            flex-wrap: wrap;
+        }
+
+        .resetBtn {
+            margin-top: 20px;
+            height: 40px;
+            width: 100px;
+            background-color: #6CCFF6;
+            border-radius: 15px 0px 15px 0px;
+            border: 1px solid white;
+            background: none;
+            color: white;
+            margin-bottom: 90px;
+            cursor: pointer;
+        }
+
+        .resetBtn:hover {
+            box-shadow: 0px 0px 10px white;
+            /* background-color: red; */
+        }
+
+        .boxesMain {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            /* background-color: #6CCFF6; */
+        }
+
+        .outer {
+            text-align: center;
+            /* display: flex; */
+            color: white;
+        }
+
+        .boxOuter {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+            /* background-color: #fff; */
+        }
+
+        .winnerContainer {
+            height: 100vh;
+            width: 35.5cm;
+            /* background-color: #6CCFF6; */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .winnerContent {
+            /* background-color: #6CCFF6; */
+            display: inline;
+        }
+
+        .winnerHeading {
+            font-size: 80px;
+            padding: 20px;
+            font-weight: 500;
+        }
+
+        .newGameBtn {
+            margin-top: 20px;
+            height: 40px;
+            width: 100px;
+            /* background-color: #6CCFF6; */
+            border-radius: 0px 15px 0px 15px;
+            border: 1px solid white;
+            background: none;
+            color: white;
+            cursor: pointer;
+        }
+
+        .newGameBtn:hover {
+            box-shadow: 0px 0px 10px white;
+        }
+
+        footer {
+            /* border: 10px solid white; */
+            position: relative;
+            bottom: 20px;
+        }
+
+        .hide {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="outer">
+        <div class="winnerContainer hide">
+            <div class="winnerContent">
+                <h1 class="winnerHeading"></h1>
+                <button class="newGameBtn">New Game</button>
+            </div>
+        </div>
+        <div class="boxOuter">
+            <div class="boxContainer">
+                <h1 class="heading">Tic-Tac-Toe</h1>
+                <div class="main">
+                    <div class="boxesMain">
+                        <button class="boxes"></button>
+                        <button class="boxes"></button>
+                        <button class="boxes"></button>
+                        <button class="boxes"></button>
+                        <button class="boxes"></button>
+                        <button class="boxes"></button>
+                        <button class="boxes"></button>
+                        <button class="boxes"></button>
+                        <button class="boxes"></button>
+                    </div>
+                </div>
+                <button class="resetBtn" id="resetBtn">Reset</button>
+                <footer>Made by &#x2661; by Hasnain</footer>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let boxes = document.querySelectorAll(".boxes");
+        let resetBtn = document.getElementById("resetBtn");
+        let cross = true;
+        let newGameBtn = document.querySelector(".newGameBtn");
+        let winnerHeading = document.querySelector(".winnerHeading");
+        let winnerContainer = document.querySelector(".winnerContainer");
+
+        let winningCases = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            [0, 4, 8],
+            [2, 4, 6]
+        ];
+
+        let resetGame = () => {
+            cross = true;
+            enableBoxes();
+            winnerContainer.classList.add("hide");
+        };
+
+        let disableBoxes = () => {
+            for (let box of boxes) {
+                box.disabled = true;
+            };
+        };
+
+        let enableBoxes = () => {
+            for (let box of boxes) {
+                box.disabled = false;
+                box.innerText="";
+                box.style.backgroundColor="";
+            };
+        };
+
+        newGameBtn.addEventListener("click", () => {
+            // location.reload();
+            let cross = true;
+            enableBoxes();
+        });
+
+        boxes.forEach((box) => {
+            box.addEventListener("click", () => {
+                if (cross) {
+                    box.textContent = "X";
+                    box.style.backgroundColor = "#2B9EB3"
+                    cross = false;
+                    box.disabled = true;
+                }
+                else {
+                    box.textContent = "O";
+                    box.style.backgroundColor = "#DBD5B5"
+                    // box.style.color = "black"
+                    cross = true;
+                    box.disabled = true;
+                }
+                checkWinner();
+            })
+        });
+
+        let checkWinner = () => {
+            for (let indexes of winningCases) {
+
+                let pos1 = boxes[indexes[0]].innerText;
+                let pos2 = boxes[indexes[1]].innerText;
+                let pos3 = boxes[indexes[2]].innerText;
+
+                if (pos1 != "" && pos2 != "" && pos3 != "") {
+                    if (pos1 === pos2 && pos2 === pos3) {
+                        disableBoxes();
+                        winnerHeading.textContent = `Winner is "${pos2}"`;
+                        winnerContainer.classList.remove("hide");
+                    }
+                };
+            };
+        };
+
+        resetBtn.addEventListener("click", () => {
+            // location.reload();
+            let cross = true;
+            enableBoxes();
+        });
+
+        resetBtn.addEventListener("click", resetGame);
+        newGameBtn.addEventListener("click", resetGame);
+
+
+        // counter
+
+
+        
+    </script>
+</body>
+
+</html>
